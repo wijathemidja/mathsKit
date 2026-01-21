@@ -1,3 +1,3 @@
 # mathskit
 
-A new Flutter project.
+A Flutter tool that helps solve maths. 
