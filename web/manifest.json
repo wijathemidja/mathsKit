@@ -1,6 +1,6 @@
 {
-    "name": "mathskit",
-    "short_name": "mathskit",
+    "name": "maths_kit",
+    "short_name": "maths_kit",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

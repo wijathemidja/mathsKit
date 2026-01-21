@@ -1,20 +1,11 @@
-name: maths_kit
-description: "A new Flutter project."
-publish_to: 'none'
-version: 0.1.0+1
-
+name : mathskit
+description: MathsKit is a kit to do maths built in Flutter
 environment:
-  sdk: ^3.11.0-271.0.dev
-
+  sdk: '^3.10.0'
 dependencies:
   flutter:
-    sdk: flutter
+    sdk : flutter
   quadratic_solve: ^1.0.0
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^6.0.0
 
-flutter:
-  uses-material-design: true
+
