@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:quadratic_solve/quadratic_solve.dart';
@@ -180,7 +179,12 @@ class TriangleApp extends StatefulWidget {
 class _TriangleAppState extends State<TriangleApp> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text("Triangle Kit")), body: Column(children: [TextField(), TextField(), TextField(), Text("Placeholder Answer")],),);
+    return Scaffold(appBar: AppBar(title: Text("Triangle Kit")), body: Column(children: [
+      TextField(
+        decoration: InputDecoration(
+            label: Text("Enter triangle leg")),
+    ),
+      TextField(decoration: InputDecoration(label: Text("Enter triangle leg"))), TextField(), Text("Placeholder Answer")],),);
   }
 }
 
