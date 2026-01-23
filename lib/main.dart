@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:quadratic_solve/quadratic_solve.dart';
 
@@ -15,7 +17,7 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  List MiniApp = [QuadraticApp(), SettingsApp()];
+  List MiniApp = [QuadraticApp(), TriangleApp(), SettingsApp()];
   int i = 0;
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,13 @@ class _MainAppState extends State<MainApp> {
             icon: Icon(Icons.superscript),
             label: "Quadratic",
           ),
-          NavigationDestination(icon: Icon(Icons.settings), label: "Settings"),
+          NavigationDestination(
+              icon: Icon(Icons.hexagon),
+              label: "Triangle"),
+          NavigationDestination(
+              icon: Icon(Icons.settings),
+              label: "Settings"),
+
         ],
         selectedIndex: i,
         onDestinationSelected: (int index) {
@@ -79,6 +87,7 @@ class _QuadraticSolverState extends State<QuadraticSolver> {
       body: Column(
         children: [
           TextField(
+            decoration: InputDecoration(label: Text("Enter A Value")),
             controller: _quadraticAText,
             onSubmitted: (String input) {
               var quadraticUsrAStr = _quadraticAText.text;
@@ -88,6 +97,7 @@ class _QuadraticSolverState extends State<QuadraticSolver> {
             },
           ),
           TextField(
+            decoration: InputDecoration(label: Text("Enter B Value")),
             controller: _quadraticBText,
             onSubmitted: (String input) {
               var quadraticUsrBStr = _quadraticBText.text;
@@ -97,6 +107,7 @@ class _QuadraticSolverState extends State<QuadraticSolver> {
             },
           ),
           TextField(
+            decoration: InputDecoration(label: Text("Enter C Value")),
             controller: _quadraticCText,
             onSubmitted: (String input) {
               var quadraticUsrCStr = _quadraticCText.text;
@@ -112,14 +123,20 @@ class _QuadraticSolverState extends State<QuadraticSolver> {
   }
 }
 
-class SettingsApp extends StatelessWidget {
+class SettingsApp extends StatefulWidget {
   const SettingsApp({super.key});
 
+  @override
+  State<SettingsApp> createState() => _SettingsAppState();
+}
+
+class _SettingsAppState extends State<SettingsApp> {
+  versionNumber version = versionNumber(majorRelease: 0, minorRelease: 1, FeatureUpdate: 0, MajorBugfix: 0);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Settings")),
-      body: Text("Settings"),
+      body: Column(children: [Text("Version : $version"),],),
     );
   }
 }
@@ -128,5 +145,42 @@ class SettingsApp extends StatelessWidget {
 
 String testSolve(a, b, c) {
   Quadratic quadq = Quadratic(a: a, b: b, c: c);
-  return (quadq.qslve());
+    return (quadq.qslve());
 }
+
+// Classes
+
+class versionNumber{
+  int majorRelease = 0;
+  int minorRelease = 0;
+  int FeatureUpdate = 0;
+  int MajorBugfix = 0;
+  String? hotfix;
+  versionNumber({required this.majorRelease,required this.minorRelease,required this.FeatureUpdate,required this.MajorBugfix, this.hotfix});
+  @override
+  String toString() {
+    if (hotfix != null) {
+      return ("$majorRelease.$minorRelease.$FeatureUpdate.$MajorBugfix.$hotfix");
+    } else {
+      return ("$majorRelease.$minorRelease.$FeatureUpdate.$MajorBugfix");
+    }
+  }
+
+}
+
+// Global Variables
+
+class TriangleApp extends StatefulWidget {
+  const TriangleApp({super.key});
+
+  @override
+  State<TriangleApp> createState() => _TriangleAppState();
+}
+
+class _TriangleAppState extends State<TriangleApp> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(appBar: AppBar(title: Text("Triangle Kit")), body: Column(children: [TextField(), TextField(), TextField(), Text("Placeholder Answer")],),);
+  }
+}
+
