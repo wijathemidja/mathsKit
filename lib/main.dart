@@ -199,8 +199,15 @@ class _TriangleAppState extends State<TriangleApp> {
     decoration: InputDecoration(
     label: Text("Enter triangle leg")),
     ),
-    TextField(decoration: InputDecoration(label: Text("Enter triangle leg"))), TextField(), Text("Placeholder Answer")],
+    TextField(decoration: InputDecoration(label: Text(TriTextInputText2(findTriInt)))), Text("Placeholder Answer")],
     ),);
   }
 }
 
+String TriTextInputText2(choice){
+  if(choice==0){
+    return("Enter triangle leg");
+  } else {
+    return("Enter triangle hypotenuse");
+  }
+}
