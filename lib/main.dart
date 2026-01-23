@@ -88,7 +88,7 @@ class _QuadraticSolverState extends State<QuadraticSolver> {
           TextField(
             decoration: InputDecoration(label: Text("Enter A Value")),
             controller: _quadraticAText,
-            onSubmitted: (String input) {
+            onChanged: (String input) {
               var quadraticUsrAStr = _quadraticAText.text;
               setState(() {
                 quadraticUsrA = double.parse(quadraticUsrAStr);
@@ -98,7 +98,7 @@ class _QuadraticSolverState extends State<QuadraticSolver> {
           TextField(
             decoration: InputDecoration(label: Text("Enter B Value")),
             controller: _quadraticBText,
-            onSubmitted: (String input) {
+            onChanged: (String input) {
               var quadraticUsrBStr = _quadraticBText.text;
               setState(() {
                 quadraticUsrB = double.parse(quadraticUsrBStr);
@@ -108,7 +108,7 @@ class _QuadraticSolverState extends State<QuadraticSolver> {
           TextField(
             decoration: InputDecoration(label: Text("Enter C Value")),
             controller: _quadraticCText,
-            onSubmitted: (String input) {
+            onChanged: (String input) {
               var quadraticUsrCStr = _quadraticCText.text;
               setState(() {
                 quadraticUsrC = double.parse(quadraticUsrCStr);
@@ -177,14 +177,30 @@ class TriangleApp extends StatefulWidget {
 }
 
 class _TriangleAppState extends State<TriangleApp> {
+  String? findTri;
+  int? findTriInt = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar(title: Text("Triangle Kit")), body: Column(children: [
-      TextField(
-        decoration: InputDecoration(
-            label: Text("Enter triangle leg")),
+      RadioGroup(
+        onChanged: (int? RadioChoice) {
+          setState(() {
+            findTriInt = RadioChoice;
+            if (RadioChoice == 0){
+              findTri = "findHyp";
+            } else if (RadioChoice == 1){
+              findTri = "findLeg";
+            }
+          });
+        },
+        groupValue: findTriInt,
+        child: Column(children: [RadioListTile(value: 0, title: Text("Find Hypotenuse"),), RadioListTile(value: 1, title: Text("Find Leg"),)],)),
+    TextField(
+    decoration: InputDecoration(
+    label: Text("Enter triangle leg")),
     ),
-      TextField(decoration: InputDecoration(label: Text("Enter triangle leg"))), TextField(), Text("Placeholder Answer")],),);
+    TextField(decoration: InputDecoration(label: Text("Enter triangle leg"))), TextField(), Text("Placeholder Answer")],
+    ),);
   }
 }
 
