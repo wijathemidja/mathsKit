@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:quadratic_solve/quadratic_solve.dart';
-
+import 'dart:math';
 void main() {
   runApp(MaterialApp(home: MainApp()));
 }
@@ -28,13 +27,8 @@ class _MainAppState extends State<MainApp> {
             icon: Icon(Icons.superscript),
             label: "Quadratic",
           ),
-          NavigationDestination(
-              icon: Icon(Icons.hexagon),
-              label: "Triangle"),
-          NavigationDestination(
-              icon: Icon(Icons.settings),
-              label: "Settings"),
-
+          NavigationDestination(icon: Icon(Icons.hexagon), label: "Triangle"),
+          NavigationDestination(icon: Icon(Icons.settings), label: "Settings"),
         ],
         selectedIndex: i,
         onDestinationSelected: (int index) {
@@ -130,12 +124,17 @@ class SettingsApp extends StatefulWidget {
 }
 
 class _SettingsAppState extends State<SettingsApp> {
-  versionNumber version = versionNumber(majorRelease: 0, minorRelease: 1, FeatureUpdate: 0, MajorBugfix: 0);
+  versionNumber version = versionNumber(
+    majorRelease: 0,
+    minorRelease: 1,
+    FeatureUpdate: 0,
+    MajorBugfix: 0,
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Settings")),
-      body: Column(children: [Text("Version : $version"),],),
+      body: Column(children: [Text("Version : $version")]),
     );
   }
 }
@@ -144,18 +143,24 @@ class _SettingsAppState extends State<SettingsApp> {
 
 String testSolve(a, b, c) {
   Quadratic quadq = Quadratic(a: a, b: b, c: c);
-    return (quadq.qslve());
+  return (quadq.qslve());
 }
 
 // Classes
 
-class versionNumber{
+class versionNumber {
   int majorRelease = 0;
   int minorRelease = 0;
   int FeatureUpdate = 0;
   int MajorBugfix = 0;
   String? hotfix;
-  versionNumber({required this.majorRelease,required this.minorRelease,required this.FeatureUpdate,required this.MajorBugfix, this.hotfix});
+  versionNumber({
+    required this.majorRelease,
+    required this.minorRelease,
+    required this.FeatureUpdate,
+    required this.MajorBugfix,
+    this.hotfix,
+  });
   @override
   String toString() {
     if (hotfix != null) {
@@ -164,7 +169,6 @@ class versionNumber{
       return ("$majorRelease.$minorRelease.$FeatureUpdate.$MajorBugfix");
     }
   }
-
 }
 
 // Global Variables
@@ -177,37 +181,112 @@ class TriangleApp extends StatefulWidget {
 }
 
 class _TriangleAppState extends State<TriangleApp> {
-  String? findTri;
   int? findTriInt = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text("Triangle Kit")), body: Column(children: [
-      RadioGroup(
-        onChanged: (int? RadioChoice) {
-          setState(() {
-            findTriInt = RadioChoice;
-            if (RadioChoice == 0){
-              findTri = "findHyp";
-            } else if (RadioChoice == 1){
-              findTri = "findLeg";
-            }
-          });
-        },
-        groupValue: findTriInt,
-        child: Column(children: [RadioListTile(value: 0, title: Text("Find Hypotenuse"),), RadioListTile(value: 1, title: Text("Find Leg"),)],)),
-    TextField(
-    decoration: InputDecoration(
-    label: Text("Enter triangle leg")),
-    ),
-    TextField(decoration: InputDecoration(label: Text(TriTextInputText2(findTriInt)))), Text("Placeholder Answer")],
-    ),);
+    return Scaffold(
+      appBar: AppBar(title: Text("Triangle Kit")),
+      body: Column(
+        children: [
+          RadioGroup(
+            onChanged: (int? RadioChoice) {
+              setState(() {
+                findTriInt = RadioChoice;
+              });
+            },
+            groupValue: findTriInt,
+            child: Column(
+              children: [
+                RadioListTile(value: 0, title: Text("Find Hypotenuse")),
+                RadioListTile(value: 1, title: Text("Find Leg")),
+              ],
+            ),
+          ),
+          TriFind(findTriInt)
+        ],
+      ),
+    );
   }
 }
 
-String TriTextInputText2(choice){
-  if(choice==0){
-    return("Enter triangle leg");
-  } else {
-    return("Enter triangle hypotenuse");
+class TriFindHyp extends StatefulWidget {
+  const TriFindHyp({super.key});
+
+  @override
+  State<TriFindHyp> createState() => _TriFindHypState();
+}
+
+class _TriFindHypState extends State<TriFindHyp> {
+  @override
+  Widget build(BuildContext context) {
+    return (Column(children: [
+    TextField(
+      decoration: InputDecoration(label: Text("Enter Triangle leg")),
+    ),
+    TextField(
+    decoration: InputDecoration(
+    label: Text("Enter Triangle Leg"),
+    ),
+    ),
+    Text("Placeholder Answer")]));
   }
+}
+
+class TriFindLeg extends StatefulWidget {
+  const TriFindLeg({super.key});
+
+  @override
+  State<TriFindLeg> createState() => _TriFindLegState();
+}
+
+class _TriFindLegState extends State<TriFindLeg> {
+  final _TeFi1 = TextEditingController();
+  final _TeFi2 = TextEditingController();
+  double aLeg = 0;
+  double bLeg = 0;
+  double? hyp;
+  @override
+  Widget build(BuildContext context) {
+    return (Column(children: [
+      TextField(
+        decoration: InputDecoration(label: Text("Enter Triangle leg")),
+        controller: _TeFi1,
+        onChanged: (String input){
+          var TeFi1Str = _TeFi1.text;
+          setState(() {
+            aLeg = double.parse(TeFi1Str);
+            hyp = findHyp(a: aLeg, b: bLeg);
+          });
+        },
+      ),
+      TextField(
+        decoration: InputDecoration(label: Text("Enter Triangle Hypotenuse"),),
+        controller: _TeFi2,
+        onChanged: (String input){
+          var TeFi1Str = _TeFi2.text;
+          setState(() {
+            bLeg = double.parse(TeFi1Str);
+            hyp = findHyp(a: aLeg, b: bLeg);
+          });
+        },
+      ),
+      Text("Placeholder Answer")]));
+  }
+}
+
+TriFind(choice){
+  if (choice==0){
+    return(TriFindHyp());
+  } else {
+    return(TriFindLeg());
+  }
+}
+
+double findHyp({required a, required b}){
+  double c = sqrt(((a^2)+(b^2)));
+  return(c);
+}
+double findLeg({required a, required c}){
+  double b = sqrt(((c^2)-(a^2)));
+  return(b);
 }
