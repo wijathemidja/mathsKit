@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quadratic_solve/quadratic_solve.dart';
 import 'dart:math';
+
 void main() {
   runApp(MaterialApp(home: MainApp()));
 }
@@ -27,7 +28,7 @@ class _MainAppState extends State<MainApp> {
             icon: Icon(Icons.superscript),
             label: "Quadratic",
           ),
-          NavigationDestination(icon: Icon(Icons.hexagon), label: "Triangle"),
+          NavigationDestination(icon: Icon(Icons.change_history), label: "Triangle"),
           NavigationDestination(icon: Icon(Icons.settings), label: "Settings"),
         ],
         selectedIndex: i,
@@ -202,7 +203,7 @@ class _TriangleAppState extends State<TriangleApp> {
               ],
             ),
           ),
-          TriFind(findTriInt)
+          TriFind(findTriInt),
         ],
       ),
     );
@@ -217,18 +218,40 @@ class TriFindHyp extends StatefulWidget {
 }
 
 class _TriFindHypState extends State<TriFindHyp> {
+  final _TeFi1 = TextEditingController();
+  final _TeFi2 = TextEditingController();
+  double aLeg = 0;
+  double bLeg = 0;
+  double? cHyp;
   @override
   Widget build(BuildContext context) {
-    return (Column(children: [
-    TextField(
-      decoration: InputDecoration(label: Text("Enter Triangle leg")),
-    ),
-    TextField(
-    decoration: InputDecoration(
-    label: Text("Enter Triangle Leg"),
-    ),
-    ),
-    Text("Placeholder Answer")]));
+    return (Column(
+      children: [
+        TextField(
+          decoration: InputDecoration(label: Text("Enter Triangle leg")),
+          controller: _TeFi1,
+          onChanged: (String input) {
+            String _TeFi1Str = _TeFi1.text;
+            setState(() {
+              aLeg = double.parse(_TeFi1Str);
+              cHyp = findHyp(a: aLeg, b: bLeg);
+            });
+          },
+        ),
+        TextField(
+          decoration: InputDecoration(label: Text("Enter Triangle Leg")),
+          controller: _TeFi2,
+          onChanged: (String input) {
+            String _TeFi2Str = _TeFi2.text;
+            setState(() {
+              bLeg = double.parse(_TeFi2Str);
+              cHyp = findHyp(a: aLeg, b: bLeg);
+            });
+          },
+        ),
+        Text("The hypotenuse is $cHyp"),
+      ],
+    ));
   }
 }
 
@@ -243,50 +266,54 @@ class _TriFindLegState extends State<TriFindLeg> {
   final _TeFi1 = TextEditingController();
   final _TeFi2 = TextEditingController();
   double aLeg = 0;
-  double bLeg = 0;
-  double? hyp;
+  double cHyp = 0;
+  double? bLeg;
   @override
   Widget build(BuildContext context) {
-    return (Column(children: [
-      TextField(
-        decoration: InputDecoration(label: Text("Enter Triangle leg")),
-        controller: _TeFi1,
-        onChanged: (String input){
-          var TeFi1Str = _TeFi1.text;
-          setState(() {
-            aLeg = double.parse(TeFi1Str);
-            hyp = findHyp(a: aLeg, b: bLeg);
-          });
-        },
-      ),
-      TextField(
-        decoration: InputDecoration(label: Text("Enter Triangle Hypotenuse"),),
-        controller: _TeFi2,
-        onChanged: (String input){
-          var TeFi1Str = _TeFi2.text;
-          setState(() {
-            bLeg = double.parse(TeFi1Str);
-            hyp = findHyp(a: aLeg, b: bLeg);
-          });
-        },
-      ),
-      Text("Placeholder Answer")]));
+    return (Column(
+      children: [
+        TextField(
+          decoration: InputDecoration(label: Text("Enter Triangle leg")),
+          controller: _TeFi1,
+          onChanged: (String input) {
+            var TeFi1Str = _TeFi1.text;
+            setState(() {
+              aLeg = double.parse(TeFi1Str);
+              bLeg = findLeg(a: aLeg, c: cHyp);
+            });
+          },
+        ),
+        TextField(
+          decoration: InputDecoration(label: Text("Enter Triangle Hypotenuse")),
+          controller: _TeFi2,
+          onChanged: (String input) {
+            var TeFi1Str = _TeFi2.text;
+            setState(() {
+              cHyp = double.parse(TeFi1Str);
+              bLeg = findLeg(a: aLeg, c: cHyp);
+            });
+          },
+        ),
+        Text("The leg is : $bLeg"),
+      ],
+    ));
   }
 }
 
-TriFind(choice){
-  if (choice==0){
-    return(TriFindHyp());
+TriFind(choice) {
+  if (choice == 0) {
+    return (TriFindHyp());
   } else {
-    return(TriFindLeg());
+    return (TriFindLeg());
   }
 }
 
-double findHyp({required a, required b}){
-  double c = sqrt(((a^2)+(b^2)));
-  return(c);
+double findHyp({required a, required b}) {
+  double c = sqrt(((a * a) + (b * b)));
+  return (c);
 }
-double findLeg({required a, required c}){
-  double b = sqrt(((c^2)-(a^2)));
-  return(b);
+
+double findLeg({required a, required c}) {
+  double b = sqrt(((c * c) - (a * a)));
+  return (b);
 }

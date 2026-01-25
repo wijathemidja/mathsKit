@@ -38,14 +38,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.0"
-  pythagoras:
-    dependency: "direct main"
-    description:
-      name: pythagoras
-      sha256: b0da5b7b0442b29197351003433aee9cdc0160a995faf9b61027518a0bf1fcf9
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   quadratic_solve:
     dependency: "direct main"
     description:
@@ -68,4 +60,5 @@ packages:
     source: hosted
     version: "2.2.0"
 sdks:
-  dart: ">=3.10.1 <4.0.0"
+  dart: ">=3.10.0 <4.0.0"
+  pythagoras: ^1.0.0
